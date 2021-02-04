@@ -8,9 +8,14 @@ class Server {
 			DatagramSocket ds = new DatagramSocket();
 			System.out.println("port: " + ds.getLocalPort());
 			byte[] buf = new byte[bufSize];
-			DatagramPacket dp = new DatagramPacket(buf, 0, bufSize);
-			ds.receive(dp);
-			System.out.println(new String(dp.getData()));
+			DatagramPacket dp;
+			String str;
+			do {
+				dp = new DatagramPacket(buf, 0, bufSize);
+				ds.receive(dp);
+				str = new String(dp.getData(), 0, dp.getLength());
+				System.out.println(str);
+			} while (!str.equals("."));
 			ds.close();
 		} catch (Exception e) {
 			e.printStackTrace();
